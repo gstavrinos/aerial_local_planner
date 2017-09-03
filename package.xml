@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <name>aerial_local_planner</name>
+  <version>0.0.0</version>
+  <description>The aerial_local_planner package</description>
+
+  <maintainer email="gstavrinos@iit.demokritos.gr">George Stavrinos</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+</package>
