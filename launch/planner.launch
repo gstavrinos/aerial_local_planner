@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<launch>
+    <node pkg="aerial_local_planner" type="local_planner.py" respawn="false" name="aerial_local_planner" output="screen">
+        <rosparam file="$(find aerial_local_planner)/config/planner.yaml" command="load" />
+    </node>
+</launch>
