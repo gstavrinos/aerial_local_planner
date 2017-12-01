@@ -99,12 +99,6 @@ def odom_callback(odom):
                 (rr, rp, ry) = tf.transformations.euler_from_quaternion([curr_or.x, curr_or.y, curr_or.z, curr_or.w])
                 yaw_diff = gy - ry
 
-                x_diff = robot_goal.position.x - curr_pos.x # forward is positive
-                y_diff = robot_goal.position.y - curr_pos.y # left is positive
-                z_diff = robot_goal.position.z - (curr_pos.z - 0.1) # up is positive 
-                x_diff /= 1
-                y_diff /= 1
-                z_diff /= 1
                 yaw_diff /= 1
 
                 straight_yaw = lookAt(curr_pos.x, curr_pos.y, robot_goal.position.x, robot_goal.position.y)
@@ -112,8 +106,9 @@ def odom_callback(odom):
                 # polar coordinates r,θ
                 # θ = yaw_diff2
                 # r = d
-                x_diff = d * math.cos(yaw_diff2)
-                y_diff = d * math.sin(yaw_diff2)
+                x_diff = 2 * d * math.cos(yaw_diff2)
+                y_diff = 2 * d * math.sin(yaw_diff2)
+                z_diff = 2 * (robot_goal.position.z - (curr_pos.z - 0.1)) # up is positive
 
 
                 '''
@@ -147,13 +142,13 @@ def odom_callback(odom):
                 if z_diff < -max_trans_vel:
                     z_diff = -max_trans_vel
                 '''
-                x_diff = min(min_trans_vel, max(x_diff,max_trans_vel))
-                x_diff = min(min_trans_vel, max(y_diff,max_trans_vel))
-                x_diff = min(min_trans_vel, max(z_diff,max_trans_vel))
+                x_diff = max(min_trans_vel, min(x_diff,max_trans_vel))
+                x_diff = max(min_trans_vel, min(y_diff,max_trans_vel))
+                x_diff = max(min_trans_vel, min(z_diff,max_trans_vel))
                 twist.linear.x = x_diff
                 twist.linear.y = y_diff
                 twist.linear.z = z_diff
-                twist.angular.z = yaw_diff2*10
+                #twist.angular.z = yaw_diff2*10
                 #twist.angular.z = min(min_rot_vel, max(yaw_diff2,max_rot_vel))
                 #print '-----------'
                 #print straight_yaw
